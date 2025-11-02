@@ -71,7 +71,6 @@ BuildContext di Flutter adalah objek yang merepresentasikan lokasi sebuah widget
 3. Gunakan Navigator.pop() untuk kembali ke layar sebelumnya. Panggil metode ini di layar tujuan untuk menutupnya dan kembali ke layar sebelumnya, yang akan muncul kembali dari tumpukan.
 Contoh: Navigator.pop(context);. 
 Contoh penggunaan Navigator.push()
-dart
 ```
 // Di dalam widget Screen1, misalnya pada sebuah tombol
 onPressed: () {
@@ -82,7 +81,6 @@ onPressed: () {
 }
 ```
 Contoh penggunaan Navigator.pop()
-dart
 ```
 // Di dalam widget Screen2, misalnya pada sebuah tombol atau ikon kembali
 onPressed: () {
