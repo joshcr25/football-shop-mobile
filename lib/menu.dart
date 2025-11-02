@@ -144,8 +144,8 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      // Menentukan warna latar belakang dari tema aplikasi.
-      color: Theme.of(context).colorScheme.secondary,
+      // MODIFIKASI: Gunakan item.color jika tersedia, jika tidak, gunakan warna sekunder dari tema.
+      color: item.color ?? Theme.of(context).colorScheme.secondary,
       // Membuat sudut kartu melengkung.
       borderRadius: BorderRadius.circular(12),
 
