@@ -67,7 +67,7 @@ BuildContext di Flutter adalah objek yang merepresentasikan lokasi sebuah widget
 ### Jelaskan bagaimana kamu menambahkan navigasi untuk berpindah antar layar di aplikasi Flutter.
 1. Buat widget untuk setiap layar. Masing-masing layar dalam aplikasi Anda harus berupa widget terpisah, seperti Screen1 dan Screen2.
 2. Gunakan Navigator.push() untuk pindah ke layar baru. Panggil metode ini di dalam onPressed atau fungsi lain yang memicu navigasi. Anda perlu menyediakan BuildContext dan jenis rute yang ingin ditampilkan, misalnya MaterialPageRoute.
-   1. Contoh: Navigator.push(context, MaterialPageRoute(builder: (context) => Screen2()));.
+   1. Contoh: Navigator.push(context, MaterialPageRoute(builder: (context) => Screen2()));
 3. Gunakan Navigator.pop() untuk kembali ke layar sebelumnya. Panggil metode ini di layar tujuan untuk menutupnya dan kembali ke layar sebelumnya, yang akan muncul kembali dari tumpukan.
 Contoh: Navigator.pop(context);. 
 Contoh penggunaan Navigator.push()
@@ -87,3 +87,143 @@ onPressed: () {
   Navigator.pop(context);
 }
 ```
+
+## Tugas Individu 8
+### Jelaskan perbedaan antara `Navigator.push()` dan `Navigator.pushReplacement()` pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
+Method `Navigator.push()` adalah method yang menambahkan */suatu route*/ ke dalam */stack route*/ yang dikelola oleh `Navigator` tanpa menghapus */route*/ lama sedangkan `Navigator.pushReplacement()` sama dengan `Navigator.push()` tetapi dengan menghapus */route*/ lama.
+
+### Bagaimana kamu memanfaatkan hierarchy widget seperti `Scaffold`, `AppBar`, dan `Drawer` untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
+`Scaffold` sebagai penyedia struktur yang memastikan setiap layar memiliki "pondasi" yang sama. Ini menangani tugas-tugas tata letak (layout) dasar seperti menempatkan `AppBar` di bagian atas dan `BottomNavigationBar` di bagian bawah secara otomatis.
+
+`AppBar` adalah bilah horizontal di bagian atas halaman yang biasanya menampilkan judul halaman, tombol navigasi utama (seperti tombol "kembali otomatis), dan terkadang tombol tindakan lainnya. Ini memberikan identitas visual yang konsisten di setiap layar di seluruh aplikasi agar pengguna selalu tahu di mana menemukan judul halaman atau navigasi kembali.
+
+`Drawer` adalah panel navigasi yang slide masuk dari sisi layar (biasanya kiri). Ini sebagai navigasi global terpusat yang bisa dipelajari pengguna dan mengurangi kekacauan layar utama karena `Drawer` menempatkan tautan navigasi sekunder atau merupakan widget yang jarang digunakan.
+
+### Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti `Padding`, `SingleChildScrollView`, dan `ListView` saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
+Kelebihan `Padding`, `SingleChildScrollView`, dan `ListView` sebagai berikut:
+`Padding` dapat meningkatkan keterbacaan dan estetika aplikasi karena teks atau elemen UI lainnya tidak akan terlihat menumpuk atau menempel pada tepi layar/kontainer, jika diberikan spasi dengan tepat.
+
+`SingleChildScrollView` adalah kemampuan unuk membuat satu area konten dapat digulit jika ukurannya melebihi ruang layar yang tersedia yang mengatasi kesalahan "pixel overflow".
+
+`ListView` meningkatkan efisiensi dalam menangani daftar yang panjang atau tidak terbatas. Karena ia hanya me-*/render*/ item-item yang sedang terlihat di layar, bukan seluruh daftar sekaligus.
+Contoh `Padding`:
+```
+Padding(
+        padding: const EdgeInsets.all(16.0),
+        // Menyusun widget secara vertikal dalam sebuah kolom.
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Row untuk menampilkan 3 InfoCard secara horizontal.
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InfoCard(title: 'NPM', content: npm),
+                InfoCard(title: 'Name', content: nama),
+                InfoCard(title: 'Class', content: kelas),
+              ]
+            ),
+          ]
+        )
+      )
+```
+
+Contoh `SingleChildScrollView`:
+```
+SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // === Nama Produk ===
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Nama Produk",
+                    labelText: "Nama Produk",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _name = value!;
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "Nama Produk tidak boleh kosong!";
+                    } else if (value.length > 255) {
+                      return "Nama Produk terlalu panjang";
+                    }
+                    return null;
+                  },
+                ),
+              )
+            ]
+          )
+)
+```
+
+
+Contoh `ListView`:
+
+```
+ListView(
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: Colors.blue),
+            child: Column(
+              children: [
+                Text(
+                  'Football Shop',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Padding(padding: EdgeInsets.all(10)),
+                Text(
+                  "Seluruh produk bola dan baju di sini!",
+                  // Tambahkan gaya teks dengan center alignment, font ukuran 15, warna putih, dan weight biasa
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.home_outlined),
+            title: const Text('Halaman Utama'),
+            // Bagian redirection pke MyHomePage
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_business),
+            title: const Text('Tambah Produk'),
+            // Bagian redirection ke ProductFormPage
+            onTap: () {
+              Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProductFormPage(),
+        ));
+            },
+          ),
+        ],
+      )
+```
+
+### Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
+
+Dengan menggunakan sistem */theming*/ internal Flutter, terutama kelas **`ThemeData`** dan **`ColorScheme`**.

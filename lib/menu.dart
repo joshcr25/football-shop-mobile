@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+// Import drawer widget
+import 'package:football_shop/widgets/left_drawer.dart';
+import 'package:football_shop/productlist_form.dart';
 
 class MyHomePage extends StatelessWidget {
-    MyHomePage({super.key}); //sudah ada pada code sebelumnya
+  MyHomePage({super.key}); //sudah ada pada code sebelumnya
 
-    final String nama = "Josh Christmas Rommlynn"; //nama
-    final String npm = "2406395291"; //npm
-    final String kelas = "A"; //kelas
+  final String nama = "Josh Christmas Rommlynn"; //nama
+  final String npm = "2406395291"; //npm
+  final String kelas = "A"; //kelas
 
-    final List<ItemHomepage> items = [
+  final List<ItemHomepage> items = [
     ItemHomepage("All Products", Icons.inventory_2_outlined),
     ItemHomepage("My Products", Icons.shopping_bag, color: Colors.green),
     ItemHomepage("Create Product", Icons.add_business, color: Colors.red),
   ];
   @override
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     // Scaffold menyediakan struktur dasar halaman dengan AppBar dan body.
     return Scaffold(
       // AppBar adalah bagian atas halaman yang menampilkan judul.
@@ -21,14 +24,12 @@ class MyHomePage extends StatelessWidget {
         // Judul aplikasi "Football Shop" dengan teks putih dan tebal.
         title: const Text(
           'Football Shop',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         // Warna latar belakang AppBar diambil dari skema warna tema aplikasi.
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
+      drawer: LeftDrawer(),
       // Body halaman dengan padding di sekelilingnya.
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -53,7 +54,6 @@ class MyHomePage extends StatelessWidget {
             Center(
               child: Column(
                 // Menyusun teks dan grid item secara vertikal.
-
                 children: [
                   // Menampilkan teks sambutan dengan gaya tebal dan ukuran 18.
                   const Padding(
@@ -95,8 +95,8 @@ class MyHomePage extends StatelessWidget {
 class InfoCard extends StatelessWidget {
   // Kartu informasi yang menampilkan title dan content.
 
-  final String title;  // Judul kartu.
-  final String content;  // Isi kartu.
+  final String title; // Judul kartu.
+  final String content; // Isi kartu.
 
   const InfoCard({super.key, required this.title, required this.content});
 
@@ -107,15 +107,14 @@ class InfoCard extends StatelessWidget {
       elevation: 2.0,
       child: Container(
         // Mengatur ukuran dan jarak di dalam kartu.
-        width: MediaQuery.of(context).size.width / 3.5, // menyesuaikan dengan lebar device yang digunakan.
+        width:
+            MediaQuery.of(context).size.width /
+            3.5, // menyesuaikan dengan lebar device yang digunakan.
         padding: const EdgeInsets.all(16.0),
         // Menyusun title dan content secara vertikal.
         child: Column(
           children: [
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8.0),
             Text(content),
           ],
@@ -126,20 +125,19 @@ class InfoCard extends StatelessWidget {
 }
 
 class ItemHomepage {
- final String name;
- final IconData icon;
- final Color? color;
+  final String name;
+  final IconData icon;
+  final Color? color;
 
- ItemHomepage(this.name, this.icon, {this.color});
- 
+  ItemHomepage(this.name, this.icon, {this.color});
 }
 
 class ItemCard extends StatelessWidget {
   // Menampilkan kartu dengan ikon dan nama.
 
-  final ItemHomepage item; 
+  final ItemHomepage item;
 
-  const ItemCard(this.item, {super.key}); 
+  const ItemCard(this.item, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -156,8 +154,18 @@ class ItemCard extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!"))
+              SnackBar(
+                content: Text("Kamu telah menekan tombol ${item.name}!"),
+              ),
             );
+          // Navigate ke route yang sesuai (tergantung jenis tombol)
+          if (item.name == "Create Product") {
+            // Gunakan Navigator.push untuk melakukan navigasi ke MaterialPageRoute yang mencakup ProductFormPage.
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProductFormPage()),
+            );
+          }
         },
         // Container untuk menyimpan Icon dan Text
         child: Container(
@@ -167,11 +175,7 @@ class ItemCard extends StatelessWidget {
               // Menyusun ikon dan teks di tengah kartu.
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  item.icon,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
+                Icon(item.icon, color: Colors.white, size: 30.0),
                 const Padding(padding: EdgeInsets.all(3)),
                 Text(
                   item.name,
