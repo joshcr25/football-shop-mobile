@@ -35,6 +35,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
       ),
       drawer: const LeftDrawer(),
       body: Form(
+        key: _formKey,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,7 +166,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                     String pattern =
                         r'^(http|https)://[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$';
                     RegExp regExp = RegExp(pattern);
-                    if (!regExp.hasMatch(value!)) {
+                    if (!regExp.hasMatch(value!) && value != '') {
                       return "URL yang dimasukkan tidak valid";
                     }
                   },

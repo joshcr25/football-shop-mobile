@@ -227,3 +227,28 @@ ListView(
 ### Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
 
 Dengan menggunakan sistem */theming*/ internal Flutter, terutama kelas **`ThemeData`** dan **`ColorScheme`**.
+
+## Tugas Individu 9
+### Jelaskan mengapa kita perlu membuat model Dart saat mengambil/mengirim data JSON? Apa konsekuensinya jika langsung memetakan Map<String, dynamic> tanpa model (terkait validasi tipe, null-safety, maintainability)?
+
+Karena tujuan membuat model seperti itu adalah memastikan bahwa saya hanya mengakses data dengan tipe yg benar (Misalnya String, bukan int), mengurangi kesalahan saat runtime karena tipe data yang berbeda, mengurangi kesalahan null tanpa batas yang mengharuskan untuk selalu berasumsi bahwa kunci mungkin tidak ada atau nilainya adalah null, tidak memerlukan pemeriksaan null yang repetitif sehingga kode-nya lebih maintainable dibandingkan langsung memetakan itu tanpa model.
+
+### Apa fungsi package http dan CookieRequest dalam tugas ini? Jelaskan perbedaan peran http vs CookieRequest.
+Fungsi HTTP adalah protokol untuk mengirim permintaan klien ke server, sedangkan cookie request adalah bagian dari HTTP request yang berisi data kecil yang dikirim oleh browser untuk menjaga status antar permintaan yang berbeda.
+
+
+### Jelaskan mengapa instance `CookieRequest` perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+Instance `CookieRequest` perlu dibagikan ke semua komponen di aplikasi Flutter agar semua komponen dapat mengakses dan berbagi data otentikasi, sesi pengguna, dan cookie yang sama secara konsisten untuk melakukan permintaan HTTP.
+
+### Jelaskan konfigurasi konektivitas yang diperlukan agar Flutter dapat berkomunikasi dengan Django. Mengapa kita perlu menambahkan 10.0.2.2 pada ALLOWED_HOSTS, mengaktifkan CORS dan pengaturan SameSite/cookie, dan menambahkan izin akses internet di Android? Apa yang akan terjadi jika konfigurasi tersebut tidak dilakukan dengan benar?
+
+Untuk menghubungkan Flutter dengan Django, Anda memerlukan konfigurasi yang mencakup ALLOWED_HOSTS di Django (menambahkan 10.0.2.2 untuk emulasi Android), mengaktifkan CORS di Django, menambahkan izin akses internet di AndroidManifest.xml Flutter, pengaturan SameSite/cookie. Jika konfigurasi ini tidak tepat, Flutter akan gagal terhubung dengan Django karena permintaan akan ditolak, menimbulkan kesalahan jaringan seperti Connection refused atau Host not allowed. 
+
+### Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+Mekanisme pengiriman data dari input hingga tampilan di Flutter melibatkan empat langkah utama: input data melalui widget (misalnya TextField dalam Form), validasi data saat tombol kirim ditekan, pengiriman data ke server menggunakan permintaan HTTP (biasanya POST), dan menampilkan respons dari server dengan memprosesnya ke dalam widget Flutter seperti ListView. 
+
+### Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+Mekanisme autentikasi dari login, register, hingga logout melibatkan pertukaran data antara Flutter dan Django melalui permintaan HTTP. Flutter mengirimkan data pendaftaran atau login ke Django, yang kemudian memverifikasinya. Jika berhasil, Django mengirimkan token autentikasi kembali ke Flutter. Flutter menyimpan token ini untuk permintaan selanjutnya, dan hanya menampilkan menu atau fitur terautentikasi jika permintaan berhasil. Proses logout melibatkan penghapusan token di sisi Flutter dan penolakan permintaan autentikasi di sisi server. 
+
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+Saya mengimplementasinya mirip dgn tutorial, tetapi AppBar-nya men-set warna backgroundnya menjadi hitam dan children di DrawerHeader backgroundnya menjadi hitam.
